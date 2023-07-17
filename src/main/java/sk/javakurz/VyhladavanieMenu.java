@@ -5,7 +5,6 @@ import sk.javakurz.dao.DatabazaKnihDao;
 import sk.javakurz.services.VyhladavanieService;
 import sk.javakurz.services.VyhladavanieServiceImpl;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class VyhladavanieMenu {
@@ -19,6 +18,8 @@ public class VyhladavanieMenu {
 
         vyhladavanieAkcie = Map.of(
                 "1", vyhladavanieService::hladajKnihuPodlaNazvu,
+                "2", vyhladavanieService::hladajKnihuPodlaAutora,
+                "3", vyhladavanieService::hladajKnihu,
                 "S", () -> {
                 }
         );
@@ -36,6 +37,7 @@ public class VyhladavanieMenu {
                     +--------------------------------------------+
                     | 1. Hľadaj knihu podľa názvu                |
                     | 2. Hľadaj podľa autora                     |
+                    | 3. Hľadaj podľa názvu alebo autora         |
                     | S. Späť                                    |
                     +--------------------------------------------+
                     """);

@@ -9,6 +9,6 @@ public interface VyhladavanieService {
      */
     void hladajKnihu();
 
-    void hladajAutora();
+    void hladajKnihuPodlaAutora();
 
 }

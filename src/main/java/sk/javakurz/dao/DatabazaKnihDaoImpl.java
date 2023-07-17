@@ -133,6 +133,11 @@ public class DatabazaKnihDaoImpl implements DatabazaKnihDao {
     }
 
     @Override
+    public ArrayList<Autor> getVsetciAutori() {
+        return databazaKnih.getDatabazaAutorov();
+    }
+
+    @Override
     public List<Integer> getIndexyKnih() {
         return databazaKnih.getIdKnih();
     }
@@ -148,6 +153,13 @@ public class DatabazaKnihDaoImpl implements DatabazaKnihDao {
                 .filter(a -> a.getMeno().equals(meno))
                 .findFirst()
                 .orElse(null);
+    }
+
+    @Override
+    public List<Kniha> getVsetkyKnihyAutora(int idAutora) {
+        return databazaKnih.getDatabazaKnih().stream()
+                .filter(kniha -> kniha.getAutor().getId() == idAutora)
+                .collect(Collectors.toList());
     }
 
     public DatabazaKnihDaoImpl() {

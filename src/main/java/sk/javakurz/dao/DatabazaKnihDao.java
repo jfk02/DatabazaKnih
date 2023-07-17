@@ -63,6 +63,8 @@ public interface DatabazaKnihDao {
      */
     ArrayList<Kniha> getVsetkyKnihy();
 
+    ArrayList<Autor> getVsetciAutori();
+
     /**
      * Vráti všetky indexy použité v databázi kníh.
      * @return Zoradený List všetkých indexov kníh.
@@ -95,4 +97,6 @@ public interface DatabazaKnihDao {
     Autor najdiAutora(String meno);
 
     List<Kniha> hladajKnihuPodlaNazvu(String zaciatokNazvu);
+
+    List<Kniha> getVsetkyKnihyAutora(int idAutora);
 }
