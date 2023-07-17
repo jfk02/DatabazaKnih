@@ -1,12 +1,4 @@
-package sk.javakurz.databazaknih.services;
-
-import java.awt.*;
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
+package sk.javakurz.services;
 
 import com.lowagie.text.*;
 import com.lowagie.text.Font;
@@ -15,8 +7,16 @@ import com.lowagie.text.alignment.VerticalAlignment;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfPageEventHelper;
 import com.lowagie.text.pdf.PdfWriter;
-import sk.javakurz.databazaknih.dao.DatabazaKnihDao;
-import sk.javakurz.databazaknih.models.DatabazaKnih;
+import sk.javakurz.dao.DatabazaKnihDao;
+import sk.javakurz.models.DatabazaKnih;
+
+import java.awt.*;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class SuboryServiceImpl implements SuboryService {
 

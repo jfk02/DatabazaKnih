@@ -1,10 +1,11 @@
-package sk.javakurz.databazaknih.dao;
+package sk.javakurz.dao;
 
-import sk.javakurz.databazaknih.models.Autor;
-import sk.javakurz.databazaknih.models.DatabazaKnih;
-import sk.javakurz.databazaknih.models.Kniha;
+import sk.javakurz.models.Autor;
+import sk.javakurz.models.DatabazaKnih;
+import sk.javakurz.models.Kniha;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public interface DatabazaKnihDao {
 
@@ -92,4 +93,6 @@ public interface DatabazaKnihDao {
      * @return Autor alebo null ak autor neexistuje.
      */
     Autor najdiAutora(String meno);
+
+    List<Kniha> hladajKnihuPodlaNazvu(String zaciatokNazvu);
 }

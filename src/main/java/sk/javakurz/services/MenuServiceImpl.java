@@ -1,8 +1,10 @@
-package sk.javakurz.databazaknih.services;
+package sk.javakurz.services;
 
-import sk.javakurz.databazaknih.base.FarebnaKonzola;
-import sk.javakurz.databazaknih.dao.DatabazaKnihDao;
+import jline.console.ConsoleReader;
+import sk.javakurz.base.FarebnaKonzola;
+import sk.javakurz.dao.DatabazaKnihDao;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class MenuServiceImpl implements MenuService {
@@ -11,11 +13,28 @@ public class MenuServiceImpl implements MenuService {
 
     private final Scanner scanner = new Scanner(System.in);
 
-    private final String oddelovacTabulky = "+" + "-".repeat(7)
+    @Override
+    public ConsoleReader getVstupZKonzoly() {
+        return vstupZKonzoly;
+    }
+
+    private ConsoleReader vstupZKonzoly;
+
+    public final String oddelovacTabulky = "+" + "-".repeat(7)
             + "+" + "-".repeat(42)
             + "+" + "-".repeat(32)
             + "+" + "-".repeat(6) + "+";
     private final String formatTabulky = "| %5s | %-40s | %-30s | %-4s |\n";
+
+    public MenuServiceImpl(DatabazaKnihDao databazaKnihDao) {
+
+        this.databazaKnihDao = databazaKnihDao;
+        try {
+            vstupZKonzoly = new ConsoleReader();
+        } catch (IOException e) {
+            System.err.println("CHYBA: Nepodarilo sa otvoriť vstup z klávesnice!");
+        }
+    }
 
     /**
      * Pretypuje číslo v stringu na int s kontrolou na výnimku.
@@ -33,22 +52,18 @@ public class MenuServiceImpl implements MenuService {
         return pretypovaneCislo;
     }
 
-    /**
-     * Formátovaný výpis knižnice.
-     *
-     * @param index
-     * @param nazov
-     * @param autor
-     * @param rok
-     */
-    private void formatovanyVypis(String index, String nazov, String autor, String rok) {
+    @Override
+    public void formatovanyVypis(String index, String nazov, String autor, String rok) {
         System.out.printf(formatTabulky, index, nazov, autor, rok);
     }
 
-    /**
-     * Vypíše formátovanú hlavičku tabuľky.
-     */
-    private void vypisHlavickuTabulky() {
+    @Override
+    public void vypisOddelovacTabulky() {
+        System.out.println(oddelovacTabulky);
+    }
+
+    @Override
+    public void vypisHlavickuTabulky() {
         System.out.println(oddelovacTabulky);
         formatovanyVypis("Index", "Nazov", "Autor", "Rok");
         System.out.println(oddelovacTabulky);
@@ -65,8 +80,28 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public String vstup(String vyzva) {
-        System.out.print(vyzva);
-        return scanner.nextLine().trim();
+//        System.out.print(vyzva);
+//        return scanner.nextLine().trim();
+        String vstupUzivatela = "";
+
+        try {
+            vstupUzivatela = vstupZKonzoly.readLine(vyzva);
+        } catch (IOException e) {
+            System.err.println("CHYBA: Nepodarilo sa načítať vstup užívateľa!");
+        }
+        return vstupUzivatela;
+    }
+
+    @Override
+    public int citajKlavesu(){
+        int vstupUzivatela = 0;
+
+        try {
+            vstupUzivatela = vstupZKonzoly.readCharacter();
+        } catch (IOException e) {
+            System.err.println("CHYBA: Nepodarilo sa načítať vstup užívateľa!");
+        }
+        return vstupUzivatela;
     }
 
     @Override
@@ -151,32 +186,13 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public void hladajKnihu() {
-        String hladanyText = vstup("\tZadaj názov alebo autora: ");
-
-        var najdeneKnihy = databazaKnihDao.hladajKnihu(hladanyText);
-
-        if ((najdeneKnihy != null) && !najdeneKnihy.isEmpty()) {
-            System.out.println("\nV knižnici boli nájdené tieto knihy:");
-            vypisHlavickuTabulky();
-            najdeneKnihy.forEach(kniha ->
-                    formatovanyVypis(kniha.getId().toString(),
-                            kniha.getNazov(),
-                            kniha.getMenoAutora(),
-                            Integer.toString(kniha.getRokVydania())));
-            System.out.println(oddelovacTabulky);
-        } else {
-            System.out.println("Neboli nájdené žiadne knihy!");
-        }
-    }
-
-    @Override
     public void vypisPocetKnih() {
         System.out.println("Počet kníh v knižnici je: " + databazaKnihDao.pocetKnih());
     }
 
-
-    public MenuServiceImpl(DatabazaKnihDao databazaKnihDao) {
-        this.databazaKnihDao = databazaKnihDao;
+    @Override
+    public void zatvorVstup() {
+        //scanner.close();
+        vstupZKonzoly.close();
     }
 }

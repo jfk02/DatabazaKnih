@@ -1,4 +1,4 @@
-package sk.javakurz.databazaknih.models;
+package sk.javakurz.models;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package sk.javakurz.databazaknih.base;
+package sk.javakurz.base;
 
 public class FarebnaKonzola {
     public static final String RESET = "\033[0m"; // Text Reset

@@ -1,4 +1,4 @@
-package sk.javakurz.databazaknih.dao;
+package sk.javakurz.dao;
 
 import org.junit.jupiter.api.Test;
 

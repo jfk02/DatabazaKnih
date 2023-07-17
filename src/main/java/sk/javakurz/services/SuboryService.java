@@ -1,4 +1,4 @@
-package sk.javakurz.databazaknih.services;
+package sk.javakurz.services;
 
 public interface SuboryService {
 

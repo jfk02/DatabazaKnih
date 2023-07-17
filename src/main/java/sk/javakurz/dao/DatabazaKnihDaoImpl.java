@@ -1,11 +1,11 @@
-package sk.javakurz.databazaknih.dao;
+package sk.javakurz.dao;
 
-import sk.javakurz.databazaknih.models.Autor;
-import sk.javakurz.databazaknih.models.DatabazaKnih;
-import sk.javakurz.databazaknih.models.Kniha;
-import sk.javakurz.databazaknih.models.ZakladnyZaznam;
+import sk.javakurz.models.Autor;
+import sk.javakurz.models.DatabazaKnih;
+import sk.javakurz.models.Kniha;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class DatabazaKnihDaoImpl implements DatabazaKnihDao {
@@ -116,6 +116,14 @@ public class DatabazaKnihDaoImpl implements DatabazaKnihDao {
                 .stream()
                 .filter(kniha -> kniha.getNazov().contains(hladanyText)
                         || kniha.getMenoAutora().contains(hladanyText))
+                .collect(Collectors.toList());
+    }
+    @Override
+    public List<Kniha> hladajKnihuPodlaNazvu(String zaciatokNazvu){
+        return databazaKnih.getDatabazaKnih()
+                .stream()
+                .filter(kniha -> kniha.getNazov().toLowerCase()
+                        .startsWith(zaciatokNazvu.toLowerCase()))
                 .collect(Collectors.toList());
     }
 

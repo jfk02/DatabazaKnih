@@ -1,46 +1,22 @@
-package sk.javakurz.databazaknih;
+package sk.javakurz;
 
-import sk.javakurz.databazaknih.base.FarebnaKonzola;
-import sk.javakurz.databazaknih.dao.DatabazaKnihDao;
-import sk.javakurz.databazaknih.services.MenuService;
-import sk.javakurz.databazaknih.services.MenuServiceImpl;
-import sk.javakurz.databazaknih.services.SuboryService;
-import sk.javakurz.databazaknih.services.SuboryServiceImpl;
+import sk.javakurz.base.FarebnaKonzola;
+import sk.javakurz.dao.DatabazaKnihDao;
+import sk.javakurz.services.MenuService;
+import sk.javakurz.services.MenuServiceImpl;
+import sk.javakurz.services.SuboryService;
+import sk.javakurz.services.SuboryServiceImpl;
 
 import java.util.HashMap;
 
 public class HlavneMenu {
 
-    private static MenuService menuService;
-    private static SuboryService suboryService;
+    protected final MenuService menuService;
+    private final SuboryService suboryService;
+    private final VyhladavanieMenu vyhladavanieMenu;
 
     //Slovník akcií vyvolávaných z menu.
-    private static final HashMap<String, Runnable> MENU_AKCIE = new HashMap<>() {{
-        put("1", () -> menuService.novaKniha());
-        put("2", () -> menuService.zobrazVsetkyKnihy());
-        put("3", () -> menuService.zobrazKnihu());
-        put("4", () -> menuService.vymazKnihu());
-        put("5", () -> menuService.vypisPocetKnih());
-        put("6", () -> menuService.hladajKnihu());
-        put("7", () -> {
-            if (suboryService.nacitajDatabazu()) {
-                System.out.println("Knižnica bola úspešne načítaná z disku.");
-            }
-        });
-        put("8", () -> {
-            if (suboryService.ulozDatabazu()) {
-                System.out.println("Knižnica bola uložená na disk.");
-            }
-        });
-        put("9", () -> {
-            if (suboryService.ulozDoPDF()) {
-                System.out.println("Knižnica bola uložená ako PDF.");
-            }
-        });
-        put("X", () -> menuService.vymazKniznicu());
-        put("Q", () -> {
-        });
-    }};
+    private final HashMap<String, Runnable> menuAkcie;
 
     /**
      * Hlavné menu programu Kniznica.
@@ -71,13 +47,15 @@ public class HlavneMenu {
 
             volba = menuService.vstup(FarebnaKonzola.RESET + "Tvoja voľba: ");
 
-            if (MENU_AKCIE.containsKey(volba)) {
-                MENU_AKCIE.get(volba).run();
+            if (menuAkcie.containsKey(volba)) {
+                menuAkcie.get(volba).run();
                 menuService.vstup("\nPre pokračovanie stlač ENTER.");
             } else {
                 System.out.println("Zadaj voľbu z menu.");
             }
         } while (!volba.equals("Q"));
+
+        menuService.zatvorVstup();
     }
 
     public HlavneMenu(DatabazaKnihDao databazaKnihDao) {
@@ -85,5 +63,33 @@ public class HlavneMenu {
         //Vytvorenie služieb potrebných pre chod hlavného menu.
         menuService = new MenuServiceImpl(databazaKnihDao);
         suboryService = new SuboryServiceImpl(databazaKnihDao);
+        vyhladavanieMenu = new VyhladavanieMenu(databazaKnihDao, this);
+
+        menuAkcie = new HashMap<>() {{
+            put("1", menuService::novaKniha);
+            put("2", menuService::zobrazVsetkyKnihy);
+            put("3", menuService::zobrazKnihu);
+            put("4", menuService::vymazKnihu);
+            put("5", menuService::vypisPocetKnih);
+            put("6", vyhladavanieMenu::start);
+            put("7", () -> {
+                if (suboryService.nacitajDatabazu()) {
+                    System.out.println("Knižnica bola úspešne načítaná z disku.");
+                }
+            });
+            put("8", () -> {
+                if (suboryService.ulozDatabazu()) {
+                    System.out.println("Knižnica bola uložená na disk.");
+                }
+            });
+            put("9", () -> {
+                if (suboryService.ulozDoPDF()) {
+                    System.out.println("Knižnica bola uložená ako PDF.");
+                }
+            });
+            put("X", menuService::vymazKniznicu);
+            put("Q", () -> {
+            });
+        }};
     }
 }

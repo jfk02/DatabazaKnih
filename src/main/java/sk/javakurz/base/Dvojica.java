@@ -1,4 +1,4 @@
-package sk.javakurz.databazaknih.base;
+package sk.javakurz.base;
 
 public class Dvojica<T1, T2> {
     public T1 getPrvy() {

@@ -1,22 +1,22 @@
-package sk.javakurz.databazaknih;
+package sk.javakurz;
 
-import sk.javakurz.databazaknih.base.FarebnaKonzola;
-import sk.javakurz.databazaknih.dao.*;
+import sk.javakurz.base.FarebnaKonzola;
+import sk.javakurz.dao.*;
 
 /**
  * Hlavná trieda programu obsahujúca main metódu.
  */
-public class Kniznica {
-    private static DatabazaKnihDao mojaKniznica;
-    private static HlavneMenu hlavneMenu;
+public class Main {
+
 
     public static void main(String[] args) {
 
         //Databáza mojaKniznica -> Dependency Injection.
-        mojaKniznica = new DatabazaKnihDaoImpl();
-        hlavneMenu = new HlavneMenu(mojaKniznica);
+        var mojaKniznica = new DatabazaKnihDaoImpl();
+        var hlavneMenu = new HlavneMenu(mojaKniznica);
         hlavneMenu.start();
 
         System.out.println(FarebnaKonzola.CYAN_BOLD_BRIGHT + "PROGRAM KNIŽNICA BOL UKONČENÝ!");
+        System.out.println(FarebnaKonzola.RESET);
     }
 }
