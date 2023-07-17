@@ -1,17 +1,16 @@
 package sk.javakurz.services;
 
 import jline.console.ConsoleReader;
+import jline.console.completer.CandidateListCompletionHandler;
+import jline.console.completer.CompletionHandler;
 import sk.javakurz.base.FarebnaKonzola;
 import sk.javakurz.dao.DatabazaKnihDao;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 public class MenuServiceImpl implements MenuService {
 
     private final DatabazaKnihDao databazaKnihDao;
-
-    private final Scanner scanner = new Scanner(System.in);
 
     @Override
     public ConsoleReader getVstupZKonzoly() {
@@ -20,17 +19,18 @@ public class MenuServiceImpl implements MenuService {
 
     private ConsoleReader vstupZKonzoly;
 
-    public final String oddelovacTabulky = "+" + "-".repeat(7)
+    private final String oddelovacTabulky = "+" + "-".repeat(7)
             + "+" + "-".repeat(42)
             + "+" + "-".repeat(32)
             + "+" + "-".repeat(6) + "+";
-    private final String formatTabulky = "| %5s | %-40s | %-30s | %-4s |\n";
 
     public MenuServiceImpl(DatabazaKnihDao databazaKnihDao) {
 
         this.databazaKnihDao = databazaKnihDao;
         try {
             vstupZKonzoly = new ConsoleReader();
+            CompletionHandler handler = new CandidateListCompletionHandler();
+            vstupZKonzoly.setCompletionHandler(handler);
         } catch (IOException e) {
             System.err.println("CHYBA: Nepodarilo sa otvoriť vstup z klávesnice!");
         }
@@ -54,6 +54,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public void formatovanyVypis(String index, String nazov, String autor, String rok) {
+        String formatTabulky = "| %5s | %-40s | %-30s | %-4s |\n";
         System.out.printf(formatTabulky, index, nazov, autor, rok);
     }
 
@@ -80,8 +81,6 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public String vstup(String vyzva) {
-//        System.out.print(vyzva);
-//        return scanner.nextLine().trim();
         String vstupUzivatela = "";
 
         try {
@@ -106,8 +105,8 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public void novaKniha() {
-        String nazov = "";
-        String autor = "";
+        String nazov;
+        String autor;
 
         nazov = vstup("\tNázov: ");
         autor = vstup("\tAutor: ");

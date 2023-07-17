@@ -1,5 +1,6 @@
 package sk.javakurz.base;
 
+@SuppressWarnings("unused")
 public class FarebnaKonzola {
     public static final String RESET = "\033[0m"; // Text Reset
 

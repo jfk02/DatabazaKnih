@@ -1,10 +1,9 @@
 package sk.javakurz.services;
 
-import com.lowagie.text.*;
 import com.lowagie.text.Font;
+import com.lowagie.text.*;
 import com.lowagie.text.alignment.HorizontalAlignment;
 import com.lowagie.text.alignment.VerticalAlignment;
-import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfPageEventHelper;
 import com.lowagie.text.pdf.PdfWriter;
 import sk.javakurz.dao.DatabazaKnihDao;
@@ -173,7 +172,7 @@ public class SuboryServiceImpl implements SuboryService {
                 pdfWriter.setPageEvent(new PdfPageEventHelper() {
                     @Override
                     public void onEndPage(PdfWriter writer, Document document) {
-                        PdfContentByte cb = writer.getDirectContent();
+                        writer.getDirectContent();
                     }
                 });
 

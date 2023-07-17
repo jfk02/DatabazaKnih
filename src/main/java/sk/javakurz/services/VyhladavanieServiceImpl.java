@@ -74,6 +74,8 @@ public class VyhladavanieServiceImpl implements VyhladavanieService {
         var autor = databazaKnihDao.najdiAutora(hladanyAutor.trim());
         if (autor != null) {
             vypisNajdeneKnihy(databazaKnihDao.getVsetkyKnihyAutora(autor.getId()));
+        } else {
+            System.out.println("Autor " + hladanyAutor + " nebol nájdený!");
         }
     }
 
