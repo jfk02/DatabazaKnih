@@ -74,28 +74,11 @@ public class SuboryServiceImpl implements SuboryService {
             jeNahrata = true;
             databazaKnihDao.setKniznicaZmenena(false);
         } catch (IOException | ClassNotFoundException e) {
-            //System.err.println(e.getMessage());
             System.err.println("Nepodarilo sa načitať knižnicu z disku. Súbor nebol nájdený, alebo je poškodený!");
         }
 
         return jeNahrata;
     }
-
-/*
-    public boolean openPdfReport() {
-        boolean isOpen = false;
-        try {
-            File file = new File(pdfPath);
-            Desktop desktop = Desktop.getDesktop();
-            if (desktop.isSupported(Desktop.Action.OPEN)) {
-                desktop.open(file);
-                isOpen = true;
-            }
-        } catch (DocumentException | IOException e) {
-            System.err.println(e.getMessage());
-        }
-        return isOpen;
-    }*/
 
     private Table vytvorTabulku() {
 
@@ -176,34 +159,25 @@ public class SuboryServiceImpl implements SuboryService {
                     }
                 });
 
-                zoznamKnihPDF.open();  // Open the Document
+                zoznamKnihPDF.open();
 
-                /* Here we add some metadata to the generated pdf */
                 zoznamKnihPDF.addTitle("Java Knižnica");
                 zoznamKnihPDF.addSubject("Zoznam kníh dostupných v Java Knižnici");
                 zoznamKnihPDF.addKeywords("Java, Knižnica, OpenPDF");
                 zoznamKnihPDF.addAuthor("Java Knižnica");
-                /* End of the adding metadata section */
 
-                // Create a Font object
-                Font titleFont = new Font(Font.COURIER, 20f, Font.BOLDITALIC, Color.BLUE);
+                Font fontTitulku = new Font(Font.COURIER, 20f, Font.BOLDITALIC, Color.BLUE);
 
-                // Create a paragraph with the new font
-                Paragraph paragraph = new Paragraph(titulok, titleFont);
+                Paragraph odsek = new Paragraph(titulok, fontTitulku);
 
-                // Element class provides properties to align
-                // Content elements within the document
-                paragraph.setAlignment(Element.ALIGN_CENTER);
+                odsek.setAlignment(Element.ALIGN_CENTER);
 
-                zoznamKnihPDF.add(paragraph);
+                zoznamKnihPDF.add(odsek);
 
-                // Adding an empty line
                 zoznamKnihPDF.add(new Paragraph(Chunk.NEWLINE));
 
-                // Include the text as content of the pdf
                 zoznamKnihPDF.add(new Paragraph(textDokumentu));
 
-                // 4)Finally add the table to the document
                 zoznamKnihPDF.add(zoznamKnih);
 
                 zoznamKnihPDF.close();

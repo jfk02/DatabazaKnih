@@ -6,15 +6,15 @@ import java.util.List;
 
 public class DatabazaKnih implements Serializable {
 
-    private final ArrayList<Kniha> databazaKnih;
+    private final List<ZakladnyZaznam> databazaKnih;
 
-    private final ArrayList<Autor> databazaAutorov;
+    private final List<ZakladnyZaznam> databazaAutorov;
 
-    public ArrayList<Kniha> getDatabazaKnih() {
+    public List<ZakladnyZaznam> getDatabazaKnih() {
         return databazaKnih;
     }
 
-    public ArrayList<Autor> getDatabazaAutorov() {
+    public List<ZakladnyZaznam> getDatabazaAutorov() {
         return databazaAutorov;
     }
 

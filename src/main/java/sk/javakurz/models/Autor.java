@@ -10,14 +10,10 @@ public class Autor extends ZakladnyZaznam implements Serializable {
         return id;
     }
 
-    private String meno;
+    private final String meno;
 
     public String getMeno() {
         return meno;
-    }
-
-    public void setMeno(String meno) {
-        this.meno = meno;
     }
 
     public Autor(String meno, int id) {

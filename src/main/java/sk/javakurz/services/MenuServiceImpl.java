@@ -92,18 +92,6 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public int citajKlavesu(){
-        int vstupUzivatela = 0;
-
-        try {
-            vstupUzivatela = vstupZKonzoly.readCharacter();
-        } catch (IOException e) {
-            System.err.println("CHYBA: Nepodarilo sa načítať vstup užívateľa!");
-        }
-        return vstupUzivatela;
-    }
-
-    @Override
     public void novaKniha() {
         String nazov;
         String autor;

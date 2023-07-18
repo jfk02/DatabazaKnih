@@ -4,7 +4,6 @@ import sk.javakurz.models.Autor;
 import sk.javakurz.models.DatabazaKnih;
 import sk.javakurz.models.Kniha;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface DatabazaKnihDao {
@@ -59,11 +58,12 @@ public interface DatabazaKnihDao {
 
     /**
      * Vráti všetky knihy bez indexu zotriedené podľa poradia pridania, najnovšie ako posledné.
+     *
      * @return Collection nájdených kníh KnihaModel bez indexu.
      */
-    ArrayList<Kniha> getVsetkyKnihy();
+    List<Kniha> getVsetkyKnihy();
 
-    ArrayList<Autor> getVsetciAutori();
+    List<Autor> getVsetciAutori();
 
     /**
      * Vráti všetky indexy použité v databázi kníh.

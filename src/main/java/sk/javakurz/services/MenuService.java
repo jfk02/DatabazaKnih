@@ -31,8 +31,6 @@ public interface MenuService {
      */
     String vstup(String vyzva);
 
-    int citajKlavesu();
-
     /**
      * Vytvorí novú knihu zo vstupu užívateľa.
      *

@@ -4,7 +4,6 @@ import sk.javakurz.models.Autor;
 import sk.javakurz.models.DatabazaKnih;
 import sk.javakurz.models.Kniha;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,6 +52,7 @@ public class DatabazaKnihDaoImpl implements DatabazaKnihDao {
     @Override
     public Kniha getKniha(int index) {
         return this.databazaKnih.getDatabazaKnih().stream()
+                .map(zaznam ->(Kniha) zaznam)
                 .filter(kniha -> kniha.getId() == index)
                 .findFirst()
                 .orElse(null);
@@ -114,27 +114,36 @@ public class DatabazaKnihDaoImpl implements DatabazaKnihDao {
     public List<Kniha> hladajKnihu(String hladanyText) {
         return databazaKnih.getDatabazaKnih()
                 .stream()
+                .map(zaznam -> (Kniha) zaznam)
                 .filter(kniha -> kniha.getNazov().contains(hladanyText)
                         || kniha.getMenoAutora().contains(hladanyText))
                 .collect(Collectors.toList());
     }
+
     @Override
     public List<Kniha> hladajKnihuPodlaNazvu(String zaciatokNazvu){
         return databazaKnih.getDatabazaKnih()
                 .stream()
+                .map(zaznam -> (Kniha) zaznam)
                 .filter(kniha -> kniha.getNazov().toLowerCase()
                         .startsWith(zaciatokNazvu.toLowerCase()))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public ArrayList<Kniha> getVsetkyKnihy() {
-        return databazaKnih.getDatabazaKnih();
+    public List<Kniha> getVsetkyKnihy() {
+        return databazaKnih.getDatabazaKnih()
+                .stream()
+                .map(zaznam -> (Kniha) zaznam)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public ArrayList<Autor> getVsetciAutori() {
-        return databazaKnih.getDatabazaAutorov();
+    public List<Autor> getVsetciAutori() {
+        return databazaKnih.getDatabazaAutorov()
+                .stream()
+                .map(zaznam -> (Autor) zaznam)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -150,6 +159,7 @@ public class DatabazaKnihDaoImpl implements DatabazaKnihDao {
     @Override
     public Autor najdiAutora(String meno) {
         return databazaKnih.getDatabazaAutorov().stream()
+                .map(zaznam -> (Autor) zaznam)
                 .filter(a -> a.getMeno().equals(meno))
                 .findFirst()
                 .orElse(null);
@@ -158,6 +168,7 @@ public class DatabazaKnihDaoImpl implements DatabazaKnihDao {
     @Override
     public List<Kniha> getVsetkyKnihyAutora(int idAutora) {
         return databazaKnih.getDatabazaKnih().stream()
+                .map(zaznam -> (Kniha) zaznam)
                 .filter(kniha -> kniha.getAutor().getId() == idAutora)
                 .collect(Collectors.toList());
     }
@@ -166,11 +177,10 @@ public class DatabazaKnihDaoImpl implements DatabazaKnihDao {
 
         this.databazaKnih = new DatabazaKnih();
 
-        //TODO:LEN PRE PREZENTÁCIU FUNKCIÍ
+        //LEN PRE PREZENTÁCIU FUNKCIÍ
         naplnenieKniznice();
     }
 
-    //TODO: Vymazať keď už nebude potrebné.
 
     /**
      * Naplnenie knižnice pre testovanie.
